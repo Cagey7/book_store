@@ -1,0 +1,37 @@
+{% extends "layout.html "%}
+{% block body %}
+    
+    <h1>Your peronal information</h1>
+    <div>
+        Your name: {{ user_data.name }} <br>
+        Your surname: {{ user_data.surname }} <br>
+        Your phone number: {{ user_data.phone_number }} <br>
+        Your email: {{ user_data.email}} <br>
+        Input new email:
+        <form action="/personal" method="post">
+            <input name="new_email" type="text" autocomplete="off">
+            <input name="change_email" type="submit" value="Change email">
+        </form>
+        {% if context %}
+            {{ context }}
+        {% endif %}
+    </div>
+    
+    {% for order in order_data %}
+    <div>
+        <p>------------------------------------------------------</p>
+        <h3>Order id: {{ order.order_id}}</h3>
+        Address: {{ order.address }} <br>
+        {% for purchase, book in purchase_data %}
+            {% if order.order_id == purchase.order_id %}
+                <div>
+                    Book name: {{ book.name }} | Amount: {{ purchase.amount }}
+                </div>
+            {% endif %}
+        {% endfor %}
+        Total price: {{ order.total_price }}
+        <p>------------------------------------------------------</p>
+    </div>
+    {% endfor %}
+
+{% endblock %}
