@@ -1,0 +1,37 @@
+{% extends "layout.html "%}
+{% block body %}
+    <h1>Cart</h1>
+    {% if session["cart"] == [] %}
+        <p>Cart is empty</p>
+    {% else %}
+        {% for item in session["cart"] %}
+            <div>
+                <p>------------------------------------------------------------------------</p>
+                <p>Book name: {{ item["book"].name }}</p>
+                <p>Amount: {{ item["amount"] }}</p>
+                <p>Price: {{ item["book"].price * item["amount"] }}$</p>
+                <form action="/cart" method="post">
+                    <input name="id" type="hidden" value="{{ item['book'].book_id }}">
+                    <input name="delete_item" type="submit" value="Delete item">
+                </form>
+                <p>------------------------------------------------------------------------</p>
+            </div>
+        {% endfor %}
+        <p>Total: {{ session["total"] }}$</p>
+        <form action="/success" method="post">
+            <input name="total" type="hidden" value="{{ session['total'] }}">
+            <p>Input address:</p>
+            <input name="address" type="text" autocomplete="off">
+            {% if context %}
+                <p>{{ context }}</p>
+            {% endif %}
+            <br>
+            <input name="submit_order" type="submit" value="Submit order">
+        </form>
+    {% endif %}
+
+    <form action="/" method="post">
+        <button name="back" type="submit" class="btn btn-secondary" value="back">Back to shopping</button>
+    </form>
+    
+{% endblock %}
