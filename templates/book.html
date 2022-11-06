@@ -1,0 +1,23 @@
+{% extends "layout.html "%}
+{% block body %}
+
+    <h1>More information about book</h1>
+    <div>
+        Book name: {{ book_data.name }} <br> 
+        Book authot: {{ book_data.author }} <br> 
+        Book genre: {{ book_data.genre }} <br> 
+        Book year: {{ book_data.year }} <br> 
+        Book discription: {{ book_data.discription }} <br> 
+        Book price: {{ book_data.price }} <br>
+        <img src="/static/book_pics/{{book_data.book_id}}.jpg" alt="">
+    </div>
+    <form action="/" method="post">
+        <button name="back" type="submit" class="btn btn-secondary" value="back">Back to shopping</button>
+    </form>
+    <form action="/cart" method="post">
+        <input name="id" type="hidden" value="{{ book_data.book_id }}">
+        <input name="amount" type="number" min="1" max="100" value="1">
+        <input name="add_to_cart" type="submit" value="Add to Cart">
+    </form>
+    
+{% endblock %}
