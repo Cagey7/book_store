@@ -1,0 +1,37 @@
+.mtext {
+    font-size: 36px;
+    text-align: center;
+}
+
+.move_r {
+    text-align: right;
+}
+
+.text_big {
+    font-size: 36px;
+}
+
+.text_mid {
+    font-size: 24px;
+}
+
+.text_small {
+    font-size: 16px;
+}
+
+.my_img {
+    width: 600px;
+}
+
+.task_card {
+    margin: auto;
+    width: 600px;
+}
+
+.footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100px;
+    background-color:blue;
+}

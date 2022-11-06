@@ -1,0 +1,16 @@
+{% extends "layout.html "%}
+{% block body %}
+    
+    <h1>Your order has been created!</h1>
+    <img src="/static/cool_cat.png" style="width: 300px;" alt="">
+    <div>
+        Оплата при получении <br>
+        Your name: {{ user_data.name }} <br>
+        Your surname: {{ user_data.surname }} <br>
+        Your phone number: {{ user_data.phone_number}} <br>
+        Order address: {{ order_data[0] }} <br>
+        Order total: {{ order_data[1] }}$ <br>
+        Order time: {{ order_data[2] }}
+    </div>
+    
+{% endblock %}

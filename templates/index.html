@@ -1,0 +1,55 @@
+{% extends "layout.html "%}
+{% block body %}
+
+    {% if session["email"] %}
+        <div class="container mt-5 mb-5">
+            <div class="row">
+                <div class="col-10"></div>
+                <div class="col-2">
+                    <form action="/remove" method="post">
+                        <button name="remove" type="submit" class="btn btn-danger" value="remove">Remove account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    
+    <form action="/" method="post">
+        <button name="genre" type="submit" class="btn btn-secondary" value="horror">Horror</button>
+    </form>
+    <form action="/" method="post">
+        <button name="genre" type="submit" class="btn btn-secondary" value="sci-fi">Sci-fi</button>
+    </form>
+    <form action="/" method="post">
+        <button name="genre" type="submit" class="btn btn-secondary" value="thriller">Thriller</button>
+    </form>
+    <form action="/" method="post">
+        <button name="genre" type="submit" class="btn btn-secondary" value="romance">Romance</button>
+    </form>
+    <form action="/" method="post">
+        <button name="genre" type="submit" class="btn btn-secondary" value="classic">Classic</button>
+    </form>
+    <form action="/" method="post">
+        <button name="genre" type="submit" class="btn btn-secondary" value="fiction">Fiction</button>
+    </form>
+    {% for book in book_data %}
+        <p>---------------------------------------------------------------------------------------------------------------------------------------</p>
+        <div>
+            Book name: {{ book_data[loop.index0].name }} <br> 
+            Book authot: {{ book_data[loop.index0].authot }} <br> 
+            Book genre: {{ book_data[loop.index0].genre }} <br> 
+            Book price: {{ book_data[loop.index0].price }}
+        </div>
+        <img src="/static/book_pics/{{book_data[loop.index0].book_id}}.jpg" alt="" style="width: 150px;">
+        <form action="/cart" method="post">
+            <input name="id" type="hidden" value="{{ book_data[loop.index0].book_id }}">
+            <input name="amount" type="number" min="1" max="100" value="1">
+            <input name="add_to_cart" type="submit" value="Add to Cart">
+        </form>
+        <form action="/book" method="get">
+            <button name="book_info" type="submit" class="btn btn-secondary" value="{{ book_data[loop.index0].book_id }}">More information</button>
+        </form>
+        <p>---------------------------------------------------------------------------------------------------------------------------------------</p>
+    {% endfor %}
+
+{% endblock %}

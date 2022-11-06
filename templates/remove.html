@@ -1,0 +1,22 @@
+{% extends "layout.html "%}
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6">
+                <div class="mb-3 mt-3 text_mid">Your account was removed. Goodbye, {{ email }} :(</div>
+                <div class="mb-3 mt-3">
+                    <form action="/login" method="post">
+                        <button name="login" type="submit" class="btn btn-success" value="login">Go back</button>
+                    </form>
+                </div>
+                <div class="mb-3 mt-3">
+                    <img class="my_img" src="{{url_for('static', filename='sadcat.jpg')}}" alt="">
+                </div>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+
+{% endblock %}
