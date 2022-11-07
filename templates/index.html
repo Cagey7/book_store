@@ -1,55 +1,81 @@
 {% extends "layout.html "%}
 {% block body %}
 
-    {% if session["email"] %}
-        <div class="container mt-5 mb-5">
-            <div class="row">
-                <div class="col-10"></div>
-                <div class="col-2">
-                    <form action="/remove" method="post">
-                        <button name="remove" type="submit" class="btn btn-danger" value="remove">Remove account</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    {% endif %}
-    
-    <form action="/" method="post">
-        <button name="genre" type="submit" class="btn btn-secondary" value="horror">Horror</button>
-    </form>
-    <form action="/" method="post">
-        <button name="genre" type="submit" class="btn btn-secondary" value="sci-fi">Sci-fi</button>
-    </form>
-    <form action="/" method="post">
-        <button name="genre" type="submit" class="btn btn-secondary" value="thriller">Thriller</button>
-    </form>
-    <form action="/" method="post">
-        <button name="genre" type="submit" class="btn btn-secondary" value="romance">Romance</button>
-    </form>
-    <form action="/" method="post">
-        <button name="genre" type="submit" class="btn btn-secondary" value="classic">Classic</button>
-    </form>
-    <form action="/" method="post">
-        <button name="genre" type="submit" class="btn btn-secondary" value="fiction">Fiction</button>
-    </form>
-    {% for book in book_data %}
-        <p>---------------------------------------------------------------------------------------------------------------------------------------</p>
-        <div>
-            Book name: {{ book_data[loop.index0].name }} <br> 
-            Book authot: {{ book_data[loop.index0].authot }} <br> 
-            Book genre: {{ book_data[loop.index0].genre }} <br> 
-            Book price: {{ book_data[loop.index0].price }}
-        </div>
-        <img src="/static/book_pics/{{book_data[loop.index0].book_id}}.jpg" alt="" style="width: 150px;">
-        <form action="/cart" method="post">
-            <input name="id" type="hidden" value="{{ book_data[loop.index0].book_id }}">
-            <input name="amount" type="number" min="1" max="100" value="1">
-            <input name="add_to_cart" type="submit" value="Add to Cart">
-        </form>
-        <form action="/book" method="get">
-            <button name="book_info" type="submit" class="btn btn-secondary" value="{{ book_data[loop.index0].book_id }}">More information</button>
-        </form>
-        <p>---------------------------------------------------------------------------------------------------------------------------------------</p>
-    {% endfor %}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 text-center">
 
+    <form action="/" method="post" style="display: inline-block;">
+        <button name="genre" type="submit" class="btn btn-outline text-uppercase fs-4 mb-3 fw-bold" style="border-color: #00193a; color: #00193a; border-width: medium;" value="horror">Horror</button>
+    </form>
+    <form action="/" method="post" style="display: inline-block;">
+        <button name="genre" type="submit" class="btn btn-outline text-uppercase fs-4 mb-3 fw-bold" style="border-color: #00193a; color: #00193a; border-width: medium;" value="sci-fi">&nbsp;&nbsp;Sci-fi&nbsp;&nbsp;</button>
+    </form>
+    <form action="/" method="post" style="display: inline-block;">
+        <button name="genre" type="submit" class="btn btn-outline text-uppercase fs-4 mb-3 fw-bold" style="border-color: #00193a; color: #00193a; border-width: medium;" value="thriller">Thriller</button>
+    </form>
+    <form action="/" method="post" style="display: inline-block;">
+        <button name="genre" type="submit" class="btn btn-outline text-uppercase fs-4 mb-3 fw-bold" style="border-color: #00193a; color: #00193a; border-width: medium;" value="romance">Romance</button>
+    </form>
+    <form action="/" method="post" style="display: inline-block;">
+        <button name="genre" type="submit" class="btn btn-outline text-uppercase fs-4 mb-3 fw-bold" style="border-color: #00193a; color: #00193a; border-width: medium;" value="classic">Classic</button>
+    </form>
+    <form action="/" method="post" style="display: inline-block;">
+        <button name="genre" type="submit" class="btn btn-outline text-uppercase fs-4 mb-3 fw-bold" style="border-color: #00193a; color: #00193a; border-width: medium;" value="fiction">Fiction</button>
+    </form>
+    </div>
+    <div class="col-md-2"></div>
+    </div><br>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 text-center">
+    <form class="input-group mb-3" action="/searchbook" method="get">
+        <input class="form-control" autocomplete="off" name="search_book" type="text">
+        <input class="btn btn-outline-secondary" id="button-addon2" name="search_the_book" type="submit" value="Search">
+    </form></div><div class="col-md-3"></div></div><br>
+
+{% for i in range(0, lenth-rem,3) %}
+<div class="row">
+    <div class="col-md-2"></div>
+    {% for j in range(3) %}
+    <div class="col-md-2 text-center">
+    <div>
+        <p class = "fs-6 fw-bold">{{ book_data[i+j].name }}</p> 
+        <p class = "fs-6 fw-bold">{{ book_data[i+j].price }}$</p><br>
+    </div>
+    <form action="/book" method="get">
+        <button name="book_info" type="submit" class="btn btn-secondary" value="{{ book_data[i+j].book_id }}" style="background-color:transparent; border:none;"><img src="/static/book_pics/{{book_data[i+j].book_id}}.jpg" alt="" style="height:  250px;"></button>
+    </form><br>
+    <form class="input-group mb-3" action="/cart" method="post">
+        <input name="id" type="hidden" value="{{ book_data[i+j].book_id }}">
+        <input class="form-control" name="amount" type="number" min="1" max="100" value="1">
+        <input class="btn btn-outline-secondary" id="button-addon2" name="add_to_cart" type="submit" value="Add">
+    </form><br><br>
+    
+</div><div class="col-md-1"></div>
+{% endfor %}<div class="col-md-1"></div>
+</div>{% endfor %}
+{%if rem != 0 %}
+{% for i in range(lenth-rem, lenth, rem) %}
+<div class="row">
+    <div class="col-md-2"></div>
+    {% for j in range(rem) %}
+    <div class="col-md-2 text-center">
+    <div>
+        <p class = "fs-6 fw-bold">{{ book_data[i+j].name }}</p> 
+        <p class = "fs-6 fw-bold">{{ book_data[i+j].price }}$</p><br>
+    </div>
+    <form action="/book" method="get">
+        <button name="book_info" type="submit" class="btn btn-secondary" value="{{ book_data[i+j].book_id }}" style="background-color:transparent; border:none;"><img src="/static/book_pics/{{book_data[i+j].book_id}}.jpg" alt="" style="height:  250px;"></button>
+    </form><br>
+    <form class="input-group mb-3" action="/cart" method="post">
+        <input name="id" type="hidden" value="{{ book_data[i+j].book_id }}">
+        <input class="form-control" name="amount" type="number" min="1" max="100" value="1">
+        <input class="btn btn-outline-secondary" id="button-addon2" name="add_to_cart" type="submit" value="Add">
+    </form><br><br>
+
+</div><div class="col-md-1"></div>
+{% endfor %}{%if rem == 1%}<div class="col-md-7"></div>{%else%}<div class="col-md-4"></div>{%endif%}
+</div>{% endfor %}
+{%endif%}
 {% endblock %}

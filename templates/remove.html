@@ -1,22 +1,32 @@
 {% extends "layout.html "%}
 {% block body %}
-
-    <div class="container">
+<script type="text/babel">
+    class Alertik extends React.Component {
+  
+      render(){
+        return(
+          <h1>Your account has been removed.</h1>
+        );
+      }
+    }
+    ReactDOM.render(<Alertik />, document.querySelector("#test"));
+  </script>
+  
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 text-center">
+            <div class="text-center" style="color: #00193a;" id="test"></div><br>
+            <h1 class="text-center" style="color: #00193a;">Goodbye, {{ email }}</h1><br>
+        </div><div class="col-md-4"></div></div>
+        
         <div class="row">
-            <div class="col-3"></div>
-            <div class="col-6">
-                <div class="mb-3 mt-3 text_mid">Your account was removed. Goodbye, {{ email }} :(</div>
-                <div class="mb-3 mt-3">
-                    <form action="/login" method="post">
-                        <button name="login" type="submit" class="btn btn-success" value="login">Go back</button>
-                    </form>
-                </div>
-                <div class="mb-3 mt-3">
-                    <img class="my_img" src="{{url_for('static', filename='sadcat.jpg')}}" alt="">
-                </div>
-            </div>
-            <div class="col-3"></div>
+            <div class="col-md-2"></div>
+        <div class="col-md-4 fs-4">
+            If there is something we can improve or if you wish to leave a feedback, you can contact us via <b>support@bookstore.com</b> or <b>+7 (777) 777-77-77</b>
+        </div><div class="col-md-1"></div>
+        <div class="col-md-3">
+        <img src="/static/sad_cat.png" style="width: 100%;" alt="">
         </div>
-    </div>
+        <div class="col-md-2"></div></div>
 
 {% endblock %}

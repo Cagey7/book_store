@@ -1,16 +1,24 @@
 {% extends "layout.html "%}
 {% block body %}
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 text-center">
+        <h1 class="text-center" style="color: #00193a;">Your order has been created!</h1><br>
+    </div><div class="col-md-4"></div></div>
     
-    <h1>Your order has been created!</h1>
-    <img src="/static/cool_cat.png" style="width: 300px;" alt="">
-    <div>
-        Оплата при получении <br>
-        Your name: {{ user_data.name }} <br>
-        Your surname: {{ user_data.surname }} <br>
-        Your phone number: {{ user_data.phone_number}} <br>
-        Order address: {{ order_data[0] }} <br>
-        Order total: {{ order_data[1] }}$ <br>
-        Order time: {{ order_data[2] }}
+    <div class="row">
+        <div class="col-md-2"></div>
+    <div class="col-md-4">
+        <p class = "fs-4"><b>Payment upon receipt</b><br>
+        <p class = "fs-6"><b>Receiver's name:</b> {{ user_data.name }}</p>
+        <p class = "fs-6"><b>Receiver's surname:</b> {{ user_data.surname }}</p>
+        <p class = "fs-6"><b>Receiver's phone number:</b> {{ user_data.phone_number}}</p>
+        <p class = "fs-6"><b>Order address:</b> {{ order_data[0] }}</p>
+        <p class = "fs-6"><b>Order total:</b> {{ order_data[1] }}$</p>
+        <p class = "fs-6"><b>Order time:</b> {{ order_data[2] }}</p>
+    </div><div class="col-md-1"></div>
+    <div class="col-md-3">
+    <img src="/static/cool_cat.png" style="width: 100%;" alt="">
     </div>
-    
+    <div class="col-md-2"></div></div>
 {% endblock %}

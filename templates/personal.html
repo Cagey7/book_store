@@ -1,37 +1,56 @@
 {% extends "layout.html "%}
 {% block body %}
-    
-    <h1>Your peronal information</h1>
-    <div>
-        Your name: {{ user_data.name }} <br>
-        Your surname: {{ user_data.surname }} <br>
-        Your phone number: {{ user_data.phone_number }} <br>
-        Your email: {{ user_data.email}} <br>
-        Input new email:
-        <form action="/personal" method="post">
-            <input name="new_email" type="text" autocomplete="off">
-            <input name="change_email" type="submit" value="Change email">
+    <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 text-center">
+        <h1 class="text-center" style="color: #00193a;">Your personal information</h1><br>
+    </div><div class="col-md-4"></div></div>
+
+
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-3">
+            <p class = "fs-6"><b>Your name:</b> {{ user_data.name }}</p>
+            <p class = "fs-6"><b>Your surname:</b> {{ user_data.surname }}</p>
+            <p class = "fs-6"><b>Your phone number:</b> {{ user_data.phone_number }}</p>
+            <p class = "fs-6"><b>Your email:</b> {{ user_data.email}}</p>
+        </div>
+        <div class="col-2"></div>
+        <div class="col-3" style="text-align:right;">
+            <form action="/remove" method="post" onsubmit="return myFunction(this)">
+                <button name="remove" type="submit" class="btn btn-outline text-uppercase fs-6 mb-3 fw-bold" style="border-color: #00193a; color: #00193a; border-width: medium;" value="remove">Remove account</button>
+            </form><br>
+        <form class="input-group mb-3" action="/personal" method="post">
+            <input class="form-control" name="new_email" type="text" autocomplete="off">
+            <input class="btn btn-outline-secondary" id="button-addon2" name="change_email" type="submit" value="Change email"><br>
         </form>
-        {% if context %}
-            {{ context }}
-        {% endif %}
-    </div>
-    
+        <p style="font-size:15px; color:#c40000;">{{ context }}</p>
+        </div>
+        <div class="col-2"></div>
+    </div><br><br>
+
+    <script>
+        function myFunction() {
+          return confirm("Are you sure?");}
+        </script>
+
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
     {% for order in order_data %}
     <div>
-        <p>------------------------------------------------------</p>
-        <h3>Order id: {{ order.order_id}}</h3>
-        Address: {{ order.address }} <br>
+        <h3 class="text-center" style="color: #00193a;">Order id: {{ order.order_id}}</h3><br>
+        <p class = "fs-6"><b>Address:</b> {{ order.address }}</p> 
         {% for purchase, book in purchase_data %}
             {% if order.order_id == purchase.order_id %}
-                <div>
-                    Book name: {{ book.name }} | Amount: {{ purchase.amount }}
-                </div>
-            {% endif %}
+        <p class = "fs-6"><b>Book name:</b> {{ book.name }} | <b>Amount:</b> {{ purchase.amount }}</p>
+        {% endif %}
         {% endfor %}
-        Total price: {{ order.total_price }}
-        <p>------------------------------------------------------</p>
+        <p class = "fs-6"><b>Total price:</b> {{ order.total_price }}</p> 
+        <hr>
     </div>
-    {% endfor %}
+{% endfor %}
+    </div><div class="col-md-4"></div></div>
+
 
 {% endblock %}

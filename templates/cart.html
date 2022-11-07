@@ -1,37 +1,38 @@
 {% extends "layout.html "%}
 {% block body %}
-    <h1>Cart</h1>
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 text-center">
+        <h1 class="text-center" style="color: #00193a;">Cart</h1><br>
     {% if session["cart"] == [] %}
-        <p>Cart is empty</p>
+        <p class = "fs-6 fw-bold">Cart is empty</p>
     {% else %}
         {% for item in session["cart"] %}
             <div>
-                <p>------------------------------------------------------------------------</p>
-                <p>Book name: {{ item["book"].name }}</p>
-                <p>Amount: {{ item["amount"] }}</p>
-                <p>Price: {{ item["book"].price * item["amount"] }}$</p>
+                <p class = "fs-5"><b>Item:</b> {{ item["book"].name }}</p> 
+                <p class = "fs-5"><b>Amount:</b> {{ item["amount"] }}</p>
+                <p class = "fs-5"><b>Price:</b> {{ item["book"].price * item["amount"] }}$</p>
                 <form action="/cart" method="post">
                     <input name="id" type="hidden" value="{{ item['book'].book_id }}">
-                    <input name="delete_item" type="submit" value="Delete item">
+                    <input class="btn btn-outline text-uppercase fs-6 mb-3 fw-bold" style="border-color: #00193a; color: #00193a; border-width: medium;" name="delete_item" type="submit" value="Delete Item">
                 </form>
-                <p>------------------------------------------------------------------------</p>
+                <hr>
             </div>
         {% endfor %}
-        <p>Total: {{ session["total"] }}$</p>
+        <p class = "fs-5"><b>Total:</b> {{ session["total"] }}$</p>
         <form action="/success" method="post">
             <input name="total" type="hidden" value="{{ session['total'] }}">
-            <p>Input address:</p>
-            <input name="address" type="text" autocomplete="off">
+            <input class="form-control" name="address" type="text" autocomplete="off" placeholder="Shipping Address">
             {% if context %}
-                <p>{{ context }}</p>
+                <p style="font-size:15px; color:#c40000;">{{ context }}</p>
             {% endif %}
             <br>
-            <input name="submit_order" type="submit" value="Submit order">
+            <input class="btn btn-outline text-uppercase fs-6 mb-3 fw-bold" style="border-color: #00193a; color: #00193a; border-width: medium;" name="submit_order" type="submit" value="Submit order">
         </form>
     {% endif %}
 
-    <form action="/" method="post">
-        <button name="back" type="submit" class="btn btn-secondary" value="back">Back to shopping</button>
-    </form>
-    
+    </div><div class="col-md-3" style="text-align:right;">
+        <form action="/" method="post">
+        <button class="btn btn-outline text-uppercase fs-5 mb-3 fw-bold" style="border-color: #00193a; color: #00193a; border-width: medium;" name="back" type="submit" value="back">Back to shopping</button>
+    </form></div><div class="col-md-1"></div></div>
 {% endblock %}

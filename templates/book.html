@@ -1,23 +1,35 @@
 {% extends "layout.html "%}
 {% block body %}
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 text-center">
+        <h1 class="text-center" style="color: #00193a;">More information about the book</h1><br>
+    </div><div class="col-md-3" style="text-align:right;">
+        <form action="/" method="post">
+        <button class="btn btn-outline text-uppercase fs-5 mb-3 fw-bold" style="border-color: #00193a; color: #00193a; border-width: medium;" name="back" type="submit" value="back">Back to shopping</button>
+        </form>
+    </div><div class="col-md-1"></div></div>
 
-    <h1>More information about book</h1>
-    <div>
-        Book name: {{ book_data.name }} <br> 
-        Book authot: {{ book_data.author }} <br> 
-        Book genre: {{ book_data.genre }} <br> 
-        Book year: {{ book_data.year }} <br> 
-        Book discription: {{ book_data.discription }} <br> 
-        Book price: {{ book_data.price }} <br>
-        <img src="/static/book_pics/{{book_data.book_id}}.jpg" alt="">
+    <div class="row">
+    <div class="col-1"></div>
+    <div class="col-2"><img src="/static/book_pics/{{book_data.book_id}}.jpg" alt="" style="width:100%;"></div>
+    <div class="col-1"></div>
+    <div class="col-4"><p class = "fs-6">{{ book_data.discription }}</p>
     </div>
-    <form action="/" method="post">
-        <button name="back" type="submit" class="btn btn-secondary" value="back">Back to shopping</button>
-    </form>
-    <form action="/cart" method="post">
+    <div class="col-1"></div>
+    <div class="col-2" style="text-align:right;">
+
+        <p class = "fs-6"><b>Book name:</b> {{ book_data.name }}</p>
+        <p class = "fs-6"><b>Book price:</b> {{ book_data.price }}</p>
+        <p class = "fs-6"><b>Book author:</b> {{ book_data.author }}</p> 
+        <p class = "fs-6"><b>Book genre:</b> {{ book_data.genre }}</p> 
+        <p class = "fs-6"><b>Book year:</b> {{ book_data.year }}</p> 
+        <p class = "fs-6"><b>Book publisher:</b> {{ book_data.publisher }}</p> 
+
+    <form class="input-group mb-3" action="/cart" method="post">
         <input name="id" type="hidden" value="{{ book_data.book_id }}">
-        <input name="amount" type="number" min="1" max="100" value="1">
-        <input name="add_to_cart" type="submit" value="Add to Cart">
-    </form>
-    
+        <input class="form-control" name="amount" type="number" min="1" max="100" value="1">
+        <input class="btn btn-outline-secondary" id="button-addon2" name="add_to_cart" type="submit" value="Add">
+    </form></div>
+    <div class="col-1"></div></div>
 {% endblock %}

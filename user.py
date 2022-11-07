@@ -10,7 +10,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 
 def main():
-    ...
+    print(re_test_email("hello@gmail"))
 
 
 def insert_into_db(surname, name, email, password, phone_number):
@@ -54,12 +54,11 @@ def hash_password(password):
 
 
 def check_user_input(surname, name, email, password, phone_number):
-    user_data = [surname, name, email, password, phone_number]
     flag = True
-
-    for data in user_data:
-        if not re.search(r"^[^ ]{1,30}$", data):
+    if not surname.isalpha() or not name.isalpha() or not phone_number.isdigit():
             return False
+    if not re.search(r"^\w+@(\w+\.)?\w+\.\w+$", email) or " " in password:
+        return False
     return flag
 
 
@@ -67,15 +66,23 @@ def get_user_data(email):
     return db.query(User).filter(User.email == email).one()
 
 
+def re_test_email(email):
+    if re.search(r"^\w+@(\w+\.)?\w+\.\w+$", email, re.IGNORECASE):
+        return True
+    return False
+
+
 def check_email(email):
-    if not re.search(r"^\w+@(\w+\.)?\w+\.\w+$", email, re.IGNORECASE):
+    try:
+        db.query(User).filter(User.email == email).one()
+    except:
         return False
-    return True
+    else:
+        return True
 
 
 def remove_from_db(email):
     user_to_delete = db.query(User).filter(User.email == email).one()
-    print(user_to_delete)
     db.delete(user_to_delete)
     db.commit()
 
@@ -100,6 +107,13 @@ def get_book_data(genre="no_genre"):
 def get_book(book_id):
     return db.query(Book).filter(Book.book_id == book_id).one()
 
+def get_book_search(name):
+    try:
+        data = db.query(Book).filter(Book.name == name).one()
+    except:
+        return False
+    else:
+        return data
 
 def get_order_data(user_id):
     return db.query(Order).filter(Order.user_id == user_id).all()
@@ -150,5 +164,3 @@ def count_total(dict_cart):
 
 if __name__ == "__main__":
     main()
-
-
