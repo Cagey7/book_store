@@ -175,7 +175,7 @@ def personal():
     context = ""
     if request.form.get("change_email"):
         new_email = request.form.get("new_email")
-        if not check_email(new_email) and not re_test_email(new_email):
+        if check_email(new_email) or not re_test_email(new_email):
             context = "Invalid email. Try again"
         else:
             update_email(get_personal_data(session["email"]).user_id, new_email)
