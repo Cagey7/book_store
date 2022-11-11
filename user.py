@@ -5,9 +5,9 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from models.models import *
 
 
-engine = create_engine("postgres://ndvezpvvxxrned:857f441fc1b3c6b401c1d0de5b575cd344d5b60eeace1d186983e594ee9edb28@"
-                        "ec2-63-32-248-14.eu-west-1.compute.amazonaws.com:5432/db286hgmanhj69")
-#engine = create_engine("sqlite:///users.db?check_same_thread=False", echo=False)
+#engine = create_engine("postgres://ndvezpvvxxrned:857f441fc1b3c6b401c1d0de5b575cd344d5b60eeace1d186983e594ee9edb28@"
+#                        "ec2-63-32-248-14.eu-west-1.compute.amazonaws.com:5432/db286hgmanhj69")
+engine = create_engine("sqlite:///users.db?check_same_thread=False", echo=False)
 db = scoped_session(sessionmaker(bind=engine))
 
 
