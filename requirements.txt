@@ -6,4 +6,4 @@ sqlalchemy
 sqlalchemy.orm
 flask_sqlalchemy
 datetime
-gunicorn
+

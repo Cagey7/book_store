@@ -5,7 +5,7 @@ import datetime
 
 
 app = Flask(__name__)
-
+#app = Flask(__name__,template_folder='../templates')
 
 # Конфигурации сессии
 app.config["SESSION_PERMANENT"] = False
@@ -13,6 +13,10 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 GENRES = ["horror", "sci-fi", "thriller", "romance", "classic", "fiction"]
+
+@app.route("/test")
+def test():
+    return "<h1>Pog</h1>"
 
 @app.route("/", methods=["POST", "GET"])
 def index():
@@ -220,4 +224,6 @@ def searchbook():
             return render_template("book.html", book_data=book_data)
         else:
             return redirect("/")
-            
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080)
