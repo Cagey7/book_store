@@ -2,6 +2,9 @@ from flask import Flask, render_template, request, session, redirect
 from user import *
 from flask_session import Session
 import datetime
+import os
+
+SECRET_KEY = os.urandom(32)
 
 
 app = Flask(__name__)
@@ -10,6 +13,7 @@ app = Flask(__name__)
 # Конфигурации сессии
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config['SECRET_KEY'] = SECRET_KEY
 Session(app)
 
 GENRES = ["horror", "sci-fi", "thriller", "romance", "classic", "fiction"]
@@ -37,29 +41,23 @@ def index():
 @app.route("/login", methods=["POST", "GET"])
 def login():
 
-    # Если пользователь уже залогиненный, перенаправление на его личную страничку
-    if session.get("email"):
-        return redirect("/")
-
-    # Запускается, когда пользователь нажимает Login в навбаре
-    if request.form.get("login"):
-        return render_template("login.html")
-
-    # Запускается, когда пользователь логиниться
-    if request.method == "POST":
-        email = request.form.get("email")
-        password = request.form.get("password")
-        if get_to_page(email, password):
-            # Инициализация пользователя
+    form = LoginForm()
+    if form.validate_on_submit():
+        if login_check(form.email.data, form.password.data):
             session["email"] = request.form.get("email")
             session["cart"] = []
             session["total"] = 0
             return redirect("/")
         else:
-            return render_template("login.html", context="Invalid input. Try again")
+            return render_template("login.html", form=form, context="Wrong email or password")
+        
+
+    # Если пользователь уже залогиненный, перенаправление на его личную страничку
+    if session.get("email"):
+        return redirect("/")
 
     # По умолчанию
-    return render_template("login.html")
+    return render_template("login.html", form=form)
 
 
 @app.route("/register", methods=["POST", "GET"])
@@ -79,7 +77,7 @@ def register():
             return render_template("register.html", context="Invalid email. Try again")
         
         if insert_into_db(surname, name, email, password, phone_number):
-            return render_template("login.html")
+            return redirect("/login")
         return render_template("register.html")
     
     # Если пользователь уже залогиненный, перенаправление на его личную страничку

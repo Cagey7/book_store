@@ -1,28 +1,41 @@
 {% extends "layout.html"%}
 {% block body %}
 
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
         <h1 class="text-center" style="color: #00193a;">Log In</h1>
         <form action="/login" method="post">
-      <div class="mb-3">
-        <label for="formGroupExampleInput" class="form-label" style="font-size:13px; color:#940000;">Mandatory*</label>
-        <input name="email" autocomplete="off" type="text" class="form-control" placeholder="Email">
-      </div>
-      <div class="mb-3">
-      <label for="formGroupExampleInput" class="form-label" style="font-size:13px; color:#940000;">Mandatory*</label>
-      <input name="password" autocomplete="off" type="password" class="form-control" placeholder="Password">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                {{ form.email(class="form-control", autocomplete="off", placeholder="Email", required=False) }}
+            </div>
+            <div class="mb-3">
+                {{ form.password(class="form-control", placeholder="Password", required=False) }}
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label" style="font-size:15px; color:#c40000;">{{
+                    context}}</label>
+            </div>
+            <div class="mb-3 text-center">
+                <button class="btn btn-outline text-uppercase fs-5 mb-3 fw-bold"
+                    style="border-color: #00193a; color: #00193a; border-width: medium;" type="submit"
+                    value="user_register">Submit</button>
+            </div>
+            <div>
+                {% if form.email.errors %}
+                {{ form.email.errors }}
+                {% endif %}
+                {% if form.password.errors %}
+                {{ form.password.errors }}
+                {% endif %}
+            </div>
+        </form>
     </div>
-    <div class="mb-3">
-        <label for="formGroupExampleInput" class="form-label" style="font-size:15px; color:#c40000;">{{ context}}</label>
-        </div>
-    <div class="mb-3 text-center">
-    <button class="btn btn-outline text-uppercase fs-5 mb-3 fw-bold" style="border-color: #00193a; color: #00193a; border-width: medium;" type="submit" value="user_register">Submit</button>
-    </div>
-    </form></div>
-      <div class="col-md-3"></div>
-    </div>
+    <div class="col-md-3"></div>
+</div>
 
 
 {% endblock%}

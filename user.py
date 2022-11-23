@@ -3,16 +3,23 @@ import re
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from models.models import *
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, PasswordField
+from wtforms.validators import Email, DataRequired, Length
 
 
-#engine = create_engine("postgres://ndvezpvvxxrned:857f441fc1b3c6b401c1d0de5b575cd344d5b60eeace1d186983e594ee9edb28@"
-#                        "ec2-63-32-248-14.eu-west-1.compute.amazonaws.com:5432/db286hgmanhj69")
+class LoginForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired("Email is required"), Email("Wrong email format")])
+    password = PasswordField("Password", validators=[DataRequired("Password is required")])
+    submit = SubmitField("Submit")
+
+
 engine = create_engine("sqlite:///users.db?check_same_thread=False", echo=False)
 db = scoped_session(sessionmaker(bind=engine))
 
 
 def main():
-    print(re_test_email("hello@gmail"))
+    ...
 
 
 def insert_into_db(surname, name, email, password, phone_number):
@@ -27,17 +34,15 @@ def insert_into_db(surname, name, email, password, phone_number):
         return False
 
 
-def get_to_page(email, password):
+def login_check(email, password):
     hashed_password = hash_password(password)
-    lower_email = email.lower()
+
     try:
-        db_hashed_password = db.query(User).filter(User.email == lower_email).one().hashed_password
+        db_hashed_password = db.query(User).filter(User.email == email).one().hashed_password
     except Exception:
         return False
     
-    if db_hashed_password == []:
-        return False
-
+    db_hashed_password = db.query(User).filter(User.email == email).one().hashed_password
     if hashed_password == db_hashed_password:
         return True
     return False
