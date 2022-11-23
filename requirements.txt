@@ -1,9 +1,4 @@
-flask
-flask_session
-hashlib
-re
-sqlalchemy
-sqlalchemy.orm
-flask_sqlalchemy
-datetime
-
+flask==2.2.2
+flask_session==0.4.0
+sqlalchemy==1.4.41
+flask_sqlalchemy==3.0.2
