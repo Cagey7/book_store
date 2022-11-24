@@ -11,26 +11,21 @@
             {{ form.hidden_tag() }}
             <div class="mb-3">
                 {{ form.email(class="form-control", autocomplete="off", placeholder="Email", required=False) }}
+                <div style="color: red;">{% if form.email.errors %}{{ form.email.errors[0] }}{% endif %}</div>
             </div>
             <div class="mb-3">
                 {{ form.password(class="form-control", placeholder="Password", required=False) }}
+                <div style="color: red;">{% if form.password.errors %}{{ form.password.errors[0] }}{% endif %}</div>
             </div>
-            <div class="mb-3">
-                <label for="formGroupExampleInput" class="form-label" style="font-size:15px; color:#c40000;">{{
-                    context}}</label>
+            {% for message in get_flashed_messages() %}
+            <div style="color: red;">
+                {{ message }}
             </div>
+            {% endfor %}
             <div class="mb-3 text-center">
                 <button class="btn btn-outline text-uppercase fs-5 mb-3 fw-bold"
                     style="border-color: #00193a; color: #00193a; border-width: medium;" type="submit"
                     value="user_register">Submit</button>
-            </div>
-            <div>
-                {% if form.email.errors %}
-                {{ form.email.errors }}
-                {% endif %}
-                {% if form.password.errors %}
-                {{ form.password.errors }}
-                {% endif %}
             </div>
         </form>
     </div>

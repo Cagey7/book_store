@@ -3,15 +3,6 @@ import re
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from models.models import *
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
-from wtforms.validators import Email, DataRequired, Length
-
-
-class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired("Email is required"), Email("Wrong email format")])
-    password = PasswordField("Password", validators=[DataRequired("Password is required")])
-    submit = SubmitField("Submit")
 
 
 engine = create_engine("sqlite:///users.db?check_same_thread=False", echo=False)
@@ -63,7 +54,7 @@ def hash_password(password):
 def check_user_input(surname, name, email, password, phone_number):
     flag = True
     if not surname.isalpha() or not name.isalpha() or not phone_number.isdigit():
-            return False
+        return False
     if not re.search(r"^\w+@(\w+\.)?\w+\.\w+$", email) or " " in password:
         return False
     return flag

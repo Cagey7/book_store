@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, url_for, flash
 from user import *
+from forms import *
 from flask_session import Session
 import datetime
 import os
@@ -38,54 +39,48 @@ def index():
     return render_template("index.html", book_data=book_data, lenth = lenth, rem = rem)
 
 
-@app.route("/login", methods=["POST", "GET"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
 
     form = LoginForm()
     if form.validate_on_submit():
         if login_check(form.email.data, form.password.data):
-            session["email"] = request.form.get("email")
+            session["email"] = form.email.data
             session["cart"] = []
             session["total"] = 0
-            return redirect("/")
-        else:
-            return render_template("login.html", form=form, context="Wrong email or password")
-        
+            return redirect(url_for("login"))
+        flash("Wrong email or password")
+
 
     # Если пользователь уже залогиненный, перенаправление на его личную страничку
     if session.get("email"):
-        return redirect("/")
+        return redirect(url_for("index"))
 
-    # По умолчанию
     return render_template("login.html", form=form)
 
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
-    # Запускается, когда пользователь нажимает Registration в навбаре
-    if request.form.get("user_register"):
-        surname = request.form.get("surname").strip().lower().capitalize()
-        name = request.form.get("name").strip().lower().capitalize()
-        email = request.form.get("email").strip().lower()
-        password = request.form.get("password")
-        phone_number = request.form.get("phone_number").strip()
-
-        if not check_user_input(surname, name, email, password, phone_number):
-            return render_template("register.html", context="Invalid input. Try again")
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        surname = form.surname.data.lower().capitalize()
+        name = form.name.data.lower().capitalize()
+        email = form.email.data.lower()
+        password = form.password.data
+        phone_number = form.phone_number.data
 
         if check_email(email):
-            return render_template("register.html", context="Invalid email. Try again")
+            flash("Email is already used")
         
         if insert_into_db(surname, name, email, password, phone_number):
-            return redirect("/login")
-        return render_template("register.html")
+            return redirect(url_for("login"))
     
+
     # Если пользователь уже залогиненный, перенаправление на его личную страничку
     if session.get("email"):
-        return redirect("/")
+        return redirect(url_for("index"))
 
-    # По умолчанию
-    return render_template("register.html")
+    return render_template("register.html", form=form)
 
 
 @app.route("/cart", methods=["POST", "GET"])
