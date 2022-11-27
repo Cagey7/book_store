@@ -44,12 +44,14 @@ def login():
 
     form = LoginForm()
     if form.validate_on_submit():
-        if login_check(form.email.data, form.password.data):
+        is_valid = login_check(form.email.data, form.password.data)
+        if is_valid:
             session["email"] = form.email.data
             session["cart"] = []
             session["total"] = 0
             return redirect(url_for("login"))
-        flash("Wrong email or password")
+        flash("Wrong email or password", "error")
+        return redirect(url_for("login"))
 
 
     # Если пользователь уже залогиненный, перенаправление на его личную страничку
@@ -71,9 +73,13 @@ def register():
 
         if check_email(email):
             flash("Email is already used")
+            return redirect(url_for("register"))
         
         if insert_into_db(surname, name, email, password, phone_number):
             return redirect(url_for("login"))
+        else:
+            flash("Incorrect data")
+            return redirect(url_for("register"))
     
 
     # Если пользователь уже залогиненный, перенаправление на его личную страничку

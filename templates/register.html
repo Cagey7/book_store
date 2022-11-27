@@ -33,12 +33,12 @@
       </div>
       <div class="mb-3">
         {{ form.confirm_password(class="form-control", autocomplete="off", placeholder="Confirm password", required=False) }}
+        <div style="color: red;">{% if form.confirm_password.errors %}{{ form.confirm_password.errors[0] }}{% endif %}</div>
       </div>
       <div class="mb-3">
         {{ form.phone_number(class="form-control", autocomplete="off", placeholder="Phone number", required=False) }}
         <div style="color: red;">{% if form.phone_number.errors %}{{ form.phone_number.errors[0] }}{% endif %}</div>
       </div>
-      <div style="color: red;">{% if form.confirm_password.errors %}{{ form.confirm_password.errors[0] }}{% endif %}</div>
       {% for message in get_flashed_messages() %}
       <div style="color: red;">
         {{ message }}
